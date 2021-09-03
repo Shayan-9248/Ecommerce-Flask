@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ product.title }} {% endblock %}
+
+
+{% block content %}
+    <p>{{ product.title }}</p>
+    <small>{{ product.price }}</small>
+
+    <form method='post' action='{{ url_for('carts.add_cart') }}'>
+        {{ csrf_token }}
+        <input type='hidden' name='product_id' value='{{ product.id }}'>
+        <button type='submit' class='btn btn-outline-primary'>Add to cart</button>
+        <label>Quantity:</label>
+        <input type='number' name='quantity' id='' value='1' min='1' max='{{ product.stock }}'>     
+    </form>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Product {% endblock %}
+
+
+{% block content %}
+    <form method='post' enctype='multipart/form-data' novalidate>
+        {{ form.csrf_token }}
+        {{ form.title.label(class='form-control-label') }} {{ form.title(class='form-control') }}
+        {% if form.title.errors %}
+            {% for error in form.title.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.description.label(class='form-control-label') }} {{ form.description(class='form-control') }}
+        {% if form.description.errors %}
+            {% for error in form.description.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.price.label(class='form-control-label') }} {{ form.price(class='form-control') }}
+        {% if form.price.errors %}
+            {% for error in form.price.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.stock.label(class='form-control-label') }} {{ form.stock(class='form-control') }}
+        {% if form.stock.errors %}
+            {% for error in form.stock.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.discount.label(class='form-control-label') }} {{ form.discount(class='form-control') }}
+        {% if form.discount.errors %}
+            {% for error in form.discount.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.available.label }} {{ form.available }}
+
+        <select name='category' id='category' class='form-control' required>
+            <option value=''>Select a category</option>
+            {% for category in categories %}
+                <option value='category.id'>{{ category.title }}</option>
+            {% endfor %}
+        </select>
+
+
+
+        <input type='file' name='file'><br><br>
+
+        <button type='submit' class='btn btn-outline-primary'>confirm</button>
+    </form>
+{% endblock %}

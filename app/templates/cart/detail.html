@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} Carts {% endblock %}
+
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Discount</th>
+            <th scope="col">TotalPrice</th>
+            <th scope="col">Update</th>
+            <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, product in session['Shoppingcart'].items() %}
+            {% set discount = '%0.2f'|format(( product.discount / 100 ) * product.price|float) %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ product.title }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.discount }}% is {{ discount }}</td>
+                {% set TotalPrice = product.quantity|int * product.price|float %}
+                <td>{{ '%0.2f'|format((TotalPrice|float) - discount|float) }}</td>
+                <td><a href='#'>Update</a></td>
+                <td><a href='#'>Remove</a></td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td></td>
+                <td><a href='/'>Continue Shopping</a></td>
+                <td colspan='3'><h5>Tax: ${{ tax }}</h5></td>
+                <td colspan='3'><h5>GrandTotal: ${{ grand_total }}</h5></td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

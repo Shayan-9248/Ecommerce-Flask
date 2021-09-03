@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+
+{% block content %}
+    <div class='card'>
+        {% for product in get_products.items %}
+            <a href='{{ url_for('products.product_detail', product_id=product.id) }}' class='card-body'>{{ product.title }}</a>
+
+            {% if product.discount > 0 %}
+                <p>Discount {{ product.discount }}%</p>
+            {% endif %}
+            <small>${{ product.price }}</small><hr>
+
+        {% endfor %}
+    </div>
+
+
+    {% if get_products.has_prev %}
+        <a href='{{ url_for('products.index', page=get_products.prev_num) }}' class='btn btn-outline-info btn-sm'>previous</a>
+    {% endif %}
+    {% for page_num in get_products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+    {% if page_num %}
+    {% if get_products.page == page_num %}
+        <a href='{{ url_for('products.index', page=page_num) }}' class='btn btn-info btn-sm'>{{ page_num }}</a>
+    {% else %}
+        <a href='{{ url_for('products.index', page=page_num) }}' class='btn btn-outline-info btn-sm'>{{ page_num }}</a>
+    {% endif %}
+    {% else %}
+        ...
+    {% endif %}
+    {% endfor %}
+
+    {% if get_products.has_next %}
+        <a href='{{ url_for('products.index', page=get_products.next_num) }}' class='btn btn-outline-info btn-sm'>next</a>
+    {% endif %}
+{% endblock %}
