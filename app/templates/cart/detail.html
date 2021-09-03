@@ -23,13 +23,16 @@
             <tr>
                 <th scope="row">{{ loop.index }}</th>
                 <td>{{ product.title }}</td>
+            <form method='post' action='{{ url_for('carts.updateCart', id=key) }}'>
                 <td>{{ product.price }}</td>
-                <td>{{ product.quantity }}</td>
+                <td><input name='quantity' type='number' value='{{ product.quantity }}'
+                min='1' max='{{ product.stock }}'></td>
                 <td>{{ product.discount }}% is {{ discount }}</td>
                 {% set TotalPrice = product.quantity|int * product.price|float %}
                 <td>{{ '%0.2f'|format((TotalPrice|float) - discount|float) }}</td>
-                <td><a href='#'>Update</a></td>
-                <td><a href='#'>Remove</a></td>
+                <td><button type='submit' class='btn btn-outline-info btn-sm'>Update</button></td>
+            </form>
+                <td><a href='{{ url_for('carts.deleteCart', id=key) }}' class='btn btn-outline-danger btn-sm'>Remove</a></td>
             </tr>
             {% endfor %}
 

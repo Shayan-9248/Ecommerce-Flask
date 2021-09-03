@@ -1,6 +1,13 @@
-from flask import Blueprint, render_template, redirect, request, session
+from flask import (
+    Blueprint, 
+    render_template, 
+    redirect, 
+    request, 
+    session,
+    flash,
+)
 from flask.helpers import url_for
-from flask_login import current_user
+from flask_login import login_required
 
 
 from app.product.models import Product
@@ -18,6 +25,7 @@ def MagerDict(dict1, dict2):
 
 
 @blueprint.route('/add-cart', methods=['post'])
+@login_required
 def add_cart():
     try:
         product_id = request.form.get('product_id')
@@ -49,14 +57,49 @@ def add_cart():
 
 
 @blueprint.route('/carts')
+@login_required
 def getCart():
-    if 'Shoppingcart' not in session:
-        return redirect(request.referrer)
+    if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('products.index'))
     total_price = 0
+    grand_total = 0
     for key, product in session['Shoppingcart'].items():
         discount = (product['discount'] / 100) * float(product['price'])
         total_price += float(product['price']) * int(product['quantity'])
         total_price -= discount
         tax = ('%0.2f'% (0.6 * float(total_price)))
         grand_total = float('%0.2f'% (1.06 * total_price)) 
-    return render_template('cart/detail.html', tax=tax, grand_total=grand_total)
+    return render_template('cart/detail.html', grand_total=grand_total, tax=tax)
+
+
+@blueprint.post('/update-cart/<int:id>')
+@login_required
+def updateCart(id):
+    if 'Shoppingcart' not in session and len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('products.index'))
+    if request.method == 'POST':
+        quantity = request.form.get('quantity')
+        try:
+            session.modified = True
+            for key, item in session['Shoppingcart'].items():
+                if int(key) == id:
+                    item['quantity'] = quantity
+                    flash('Item updated successfully', 'success')
+                    return redirect(url_for('carts.getCart'))
+        except Exception as e:
+            return redirect(url_for('carts.getCart'))
+
+
+@blueprint.route('/delete-cart/<int:id>')
+@login_required
+def deleteCart(id):
+    if 'Shoppingcart' not in session and len(session['Shoppingcart']) <= 0:
+        return redirect(url_for('products.index'))
+    try:
+        session.modified = True
+        for key, item in session['Shoppingcart'].items():
+            if int(key) == id:
+                session['Shoppingcart'].pop(key, None)
+                return redirect(url_for('carts.getCart'))
+    except Exception as e:
+            return redirect(url_for('carts.getCart'))
