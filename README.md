@@ -7,7 +7,8 @@
 #### Usage:
 ```
     1.Create venv via: python3 -m venv venv
-    2.Install the requirements package: pip install -r requirements.txt
+    2. Activate venv through: source venv/bin/activate.
+    3.Install the requirements package: pip install -r requirements.txt
 ```
 
 #### Simple Example
