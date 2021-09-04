@@ -11,6 +11,7 @@ from flask_login import login_required
 
 
 from app.product.models import Product
+from app.order.forms import OrderForm
 from app.extensions import db
 
 blueprint = Blueprint('carts', __name__)
@@ -62,6 +63,7 @@ def add_cart():
 @blueprint.route('/carts')
 @login_required
 def getCart():
+    form = OrderForm()
     if 'Shoppingcart' not in session or len(session['Shoppingcart']) <= 0:
         return redirect(url_for('products.index'))
     total_price = 0
@@ -72,7 +74,7 @@ def getCart():
         total_price -= discount
         tax = ('%0.2f'% (0.6 * float(total_price)))
         grand_total = float('%0.2f'% (1.06 * total_price)) 
-    return render_template('cart/detail.html', grand_total=grand_total, tax=tax)
+    return render_template('cart/detail.html', grand_total=grand_total, tax=tax, form=form)
 
 
 @blueprint.post('/update-cart/<int:id>')

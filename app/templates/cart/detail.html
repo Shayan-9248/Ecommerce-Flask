@@ -38,11 +38,52 @@
 
             <tr>
                 <td></td>
-                <td><a href='/' class='btn btn-outline-success'>Checkout</a></td>
                 <td colspan='3'><h5>Tax: ${{ tax }}</h5></td>
                 <td colspan='3'><h5>GrandTotal: ${{ grand_total }}</h5></td>
                 <td><a href='{{ url_for('carts.clearCart') }}' class='btn btn-outline-danger btn-sm'>Clear</a></td>
             </tr>
         </tbody>
     </table>
+
+     <form method='post' action='{{ url_for('orders.createOrder') }}' novalidate>
+        {{ form.csrf_token }}
+        {{ form.name.label(class='form-control-label') }} {{ form.name(class='form-control') }}
+        {% if form.name.errors %}
+            {% for error in form.name.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.country.label(class='form-control-label') }} {{ form.country(class='form-control') }}
+        {% if form.country.errors %}
+            {% for error in form.country.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.city.label(class='form-control-label') }} {{ form.city(class='form-control') }}
+        {% if form.city.errors %}
+            {% for error in form.city.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.address.label(class='form-control-label') }} {{ form.address(class='form-control') }}
+        {% if form.address.errors %}
+            {% for error in form.address.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.contact.label(class='form-control-label') }} {{ form.contact(class='form-control') }}
+        {% if form.contact.errors %}
+            {% for error in form.contact.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        {{ form.zip_code.label(class='form-control-label') }} {{ form.zip_code(class='form-control') }}
+        {% if form.zip_code.errors %}
+            {% for error in form.zip_code.errors %}
+                <p class='alert alert-danger'>{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <button type='submit' class='btn btn-outline-primary'>Confirm</button>
+    </form> 
 {% endblock %}

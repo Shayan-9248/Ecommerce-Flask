@@ -3,8 +3,9 @@ from flask import Flask
 from app.user.routes import blueprint as user_blueprint
 from app.product.routes import blueprint as product_bluepinrt
 from app.cart.routes import blueprint as cart_blueprint
-from app.customer.routes import blueprint as customer_blueprint
+from app.order.routes import blueprint as order_blueprint
 from app.product.models import Product
+from app.order.models import OrderItem, Order
 
 from . import exceptions
 from .extensions import (
@@ -23,7 +24,7 @@ def register_blueprint(app):
     app.register_blueprint(user_blueprint)
     app.register_blueprint(product_bluepinrt)
     app.register_blueprint(cart_blueprint)
-    app.register_blueprint(customer_blueprint)
+    app.register_blueprint(order_blueprint)
 
 
 def register_error_handlers(e):
@@ -37,7 +38,8 @@ def register_shell_context(app):
             'db': db,
             'User': User,
             'Product': Product,
-            # 'Cart': Cart
+            'Order': Order,
+            'OrderItem': OrderItem
         }
     
     app.shell_context_processor(shell_context)
