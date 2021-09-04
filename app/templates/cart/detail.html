@@ -32,15 +32,16 @@
                 <td>{{ '%0.2f'|format((TotalPrice|float) - discount|float) }}</td>
                 <td><button type='submit' class='btn btn-outline-info btn-sm'>Update</button></td>
             </form>
-                <td><a href='{{ url_for('carts.deleteCart', id=key) }}' class='btn btn-outline-danger btn-sm'>Remove</a></td>
+                <td><a href='{{ url_for('carts.deleteCart', id=key) }}' class='btn btn-outline-warning btn-sm'>Remove</a></td>
             </tr>
             {% endfor %}
 
             <tr>
                 <td></td>
-                <td><a href='/'>Continue Shopping</a></td>
+                <td><a href='/' class='btn btn-outline-success'>Checkout</a></td>
                 <td colspan='3'><h5>Tax: ${{ tax }}</h5></td>
                 <td colspan='3'><h5>GrandTotal: ${{ grand_total }}</h5></td>
+                <td><a href='{{ url_for('carts.clearCart') }}' class='btn btn-outline-danger btn-sm'>Clear</a></td>
             </tr>
         </tbody>
     </table>

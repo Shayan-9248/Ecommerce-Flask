@@ -43,7 +43,10 @@ def add_cart():
             if 'Shoppingcart' in session:
                 print(session['Shoppingcart'])
                 if product_id in session['Shoppingcart']:
-                    print('This product already is in your cart')
+                    for key, item in session['Shoppingcart'].items():
+                        if int(key) == int(product_id):
+                            session.modified = True
+                            item['quantity'] += 1
                 else:
                     session['Shoppingcart'] = MagerDict(session['Shoppingcart'], dictItems)
                     return redirect(request.referrer)
@@ -103,3 +106,13 @@ def deleteCart(id):
                 return redirect(url_for('carts.getCart'))
     except Exception as e:
             return redirect(url_for('carts.getCart'))
+
+
+@blueprint.route('/clear-cart')
+@login_required
+def clearCart():
+    try:
+        session.pop('Shoppingcart')
+        return redirect(url_for('products.index'))
+    except Exception as e:
+        return redirect(url_for('carts.getCart'))

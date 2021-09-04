@@ -7,4 +7,9 @@
     <a class="navbar-brand" href="{{ url_for('carts.getCart') }}">Cart ({{ session['Shoppingcart']|length }})</a>
     <a class="navbar-brand" href="{{ url_for('users.sign_out') }}">sign-out</a>
   {% endif %}
+
+  <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
 </nav>
