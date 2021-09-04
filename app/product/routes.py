@@ -11,8 +11,7 @@ from flask_paginate import get_page_parameter
 from .models import Product, Category
 from .forms import AddProduct
 
-from app.extensions import db
-# from app.cart.forms import CartForm
+from app.extensions import db, search
 
 blueprint = Blueprint('products', __name__)
 
@@ -20,8 +19,15 @@ blueprint = Blueprint('products', __name__)
 @blueprint.get('/')
 def index():
     page = request.args.get(get_page_parameter(), type=int, default=1)
-    get_products = Product.query.filter_by(available=True).paginate(page=page, per_page=1)
+    get_products = Product.query.filter_by(available=True).paginate(page=page, per_page=3)
     return render_template('product/index.html', get_products=get_products)
+
+
+@blueprint.get('/result')
+def result():
+    searchWord = request.args.get('q')
+    products = Product.query.msearch(searchWord, fields=['title', 'description'], limit=3)
+    return render_template('product/result.html', products=products)
 
 
 @blueprint.route('/<product_id>', methods=['get', 'post'])

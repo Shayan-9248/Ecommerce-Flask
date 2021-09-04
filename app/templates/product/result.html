@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+
+{% block content %}
+    <div class='card'>
+        {% for product in products %}
+            <a href='{{ url_for('products.product_detail', product_id=product.id) }}' class='card-body'>{{ product.title }}</a>
+
+            {% if product.discount > 0 %}
+                <p>Discount {{ product.discount }}%</p>
+            {% endif %}
+            <small>${{ product.price }}</small><hr>
+
+        {% endfor %}
+    </div>
+{% endblock %}

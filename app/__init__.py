@@ -3,10 +3,18 @@ from flask import Flask
 from app.user.routes import blueprint as user_blueprint
 from app.product.routes import blueprint as product_bluepinrt
 from app.cart.routes import blueprint as cart_blueprint
+from app.customer.routes import blueprint as customer_blueprint
 from app.product.models import Product
 
 from . import exceptions
-from .extensions import db, migrate, bcrypt, login_manager, admin
+from .extensions import (
+    db, 
+    migrate, 
+    bcrypt, 
+    login_manager, 
+    admin,
+    search,
+)
 
 import os
 
@@ -15,6 +23,7 @@ def register_blueprint(app):
     app.register_blueprint(user_blueprint)
     app.register_blueprint(product_bluepinrt)
     app.register_blueprint(cart_blueprint)
+    app.register_blueprint(customer_blueprint)
 
 
 def register_error_handlers(e):
@@ -49,3 +58,4 @@ migrate.init_app(app, db)
 bcrypt.init_app(app)
 login_manager.init_app(app)
 admin.init_app(app)
+search.init_app(app)

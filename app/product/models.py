@@ -5,6 +5,8 @@ from flask_admin.contrib.sqla import ModelView
 
 
 class Product(BaseModel):
+    __searchable__ = ['title', 'description']
+
     title = db.Column(db.String(50), unique=True, nullable=False)
     description = db.Column(db.String(300))
     price = db.Column(db.Integer, nullable=False)
