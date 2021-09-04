@@ -4,15 +4,18 @@
 
 
 {% block content %}
+
     <div class="col-4">
-        <form action="/pay" method="POST">
+        <form action="{{ url_for('orders.payment') }}" method="POST">
+        {% set amount = grand_total.replace('.', '') %}
+        <input type='hidden' name='amount' value='{{ amount }}'>
             <script
                 src="https://checkout.stripe.com/checkout.js"
                 class="stripe-button"
                 data-key="pk_test_51I9aowLKay2ixUBfkI0ISmTlidW3n1ZX3Eyw1iRanpLVTlICJ9orizze0CtsF1cfuHreJq1vJxlLfpsdDeDSqUGt00p6YmAsLV"
                 data-name="Myshop"
                 data-description="Comfortable cotton t-shirt"
-                data-amount="500"
+                data-amount="{{ amount }}"
                 data-currency="usd">
             </script>
         </form>
