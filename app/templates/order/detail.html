@@ -4,11 +4,17 @@
 
 
 {% block content %}
-   <h3>Total Price: {{ order }}</h3><br>
-
     <div class="col-4">
-        <form method="POST" novalidate>
-            
-        </form><br>
+        <form action="/pay" method="POST">
+            <script
+                src="https://checkout.stripe.com/checkout.js"
+                class="stripe-button"
+                data-key="pk_test_51I9aowLKay2ixUBfkI0ISmTlidW3n1ZX3Eyw1iRanpLVTlICJ9orizze0CtsF1cfuHreJq1vJxlLfpsdDeDSqUGt00p6YmAsLV"
+                data-name="Myshop"
+                data-description="Comfortable cotton t-shirt"
+                data-amount="500"
+                data-currency="usd">
+            </script>
+        </form>
     </div>
 {% endblock %}

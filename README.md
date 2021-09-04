@@ -1,4 +1,4 @@
-# flask-forum
+# flask-shop
 *This repo implements a shop web application using **Flask** that is a micro-framework foundation on **Python***
 
 ### Requirements

@@ -39,5 +39,7 @@ class OrderItem(BaseModel):
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
     quantity = db.Column(db.Integer, nullable=False)
 
+    product = db.relationship('Product', backref='orderItem_product', lazy=True)
+
     def __repr__(self):
         return f'{self.__class__.__name__} ({self.id}-{self.user_id})'

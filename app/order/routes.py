@@ -51,4 +51,4 @@ def createOrder():
             db.session.add(orderItem)
             db.session.commit()
             flash('Order created successfully', 'success')
-        return redirect(url_for('orders.orderDetail', order_id=order.id))
+        return redirect(url_for('orders.orderDetail', id=order.id))
